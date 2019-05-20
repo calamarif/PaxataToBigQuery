@@ -18,7 +18,7 @@ from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 from requests.auth import HTTPBasicAuth
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/callumfinlayson/Documents/Paxata/cloud_providers/gcp/Callums first Project-4bad2a4f676a.json"
+#os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/callumfinlayson/Documents/Paxata/cloud_providers/gcp/Callums first Project-4bad2a4f676a.json"
 
 def _millis():
     return int(time.time() * 1000)
