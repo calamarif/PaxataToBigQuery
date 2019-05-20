@@ -141,10 +141,11 @@ def main():
             datasetToLoad.raise_for_status()
 
         # Load Data into Big Query
-        load_data_from_dataframe(client, dataset_name, library_name, SCHEMA, df)
-        print ("Data Taken from Paxata and loaded into Big Query Table for "+ library_name)
+        library_name_with_version = str(library_name) + "_" + str(library_version)
+        load_data_from_dataframe(client, dataset_name, library_name_with_version, SCHEMA, df)
+        print ("Data Taken from Paxata and loaded into Big Query Table for "+ library_name_with_version)
         end = time.time()
         print ("Time taken to export " + str(len(df)) + " rows to Google BigQuery: " + str(end - start))
-        
+
 if __name__ == "__main__":
     main()
