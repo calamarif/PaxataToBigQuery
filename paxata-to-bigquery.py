@@ -156,10 +156,19 @@ def paxata_to_bigquery():
     start = time.time()
     client = bigquery.Client()
 
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/callumfinlayson/Documents/Paxata/cloud_providers/gcp/Callums first Project-4bad2a4f676a.json"
+    dataset_name = os.environ.get('dataset_name')
+    dataset_description = os.environ.get('dataset_description')
+    paxata_url = os.environ.get('paxata_url')
+    paxata_restapi_token = os.environ.get('paxata_restapi_token')
+    tag = os.environ.get('tag')
     # No spaces in Dataset name or Table Name
-    dataset_name = "Paxata_Datasets"
-    dataset_description = 'Callums dataset created through the API'
-    
+    #dataset_name = "Paxata_Datasets"
+    #dataset_description = 'Callums dataset created through the API'
+    #paxata_url = "https://dataprep.paxata.com"
+    #paxata_restapi_token = "567e0af0e62f4e5d92b8279809f8b014"
+    #tag = "Big Query"
+
     #test_list_datasets(client)
 
     dataset_ref = client.dataset(dataset_name)
@@ -167,9 +176,6 @@ def paxata_to_bigquery():
         # Dataset doesn't exist, so create it
         dataset_ref = create_a_dataset(client,dataset_name,dataset_description)
 
-    paxata_url = "https://dataprep.paxata.com"
-    paxata_restapi_token = "567e0af0e62f4e5d92b8279809f8b014"
-    tag = "Big Query"
     # set the authorization based on the username and password provided in the user variables section
     auth_token = HTTPBasicAuth("", paxata_restapi_token)
     SCHEMA = []
@@ -224,4 +230,4 @@ def paxata_to_bigquery():
         dataset_counter += 1
 
 if __name__ == "__main__":
-    main()
+    paxata_to_bigquery()
