@@ -152,7 +152,7 @@ def table_exists(client, table_reference):
         return False
 # [END bigquery_table_exists]
 
-def main():
+def paxata_to_bigquery():
     start = time.time()
     client = bigquery.Client()
 
