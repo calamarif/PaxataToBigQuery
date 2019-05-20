@@ -89,9 +89,28 @@ def format_table_or_column(s):
     filename = filename.replace(' ','_') # Remove spaces in filenames.
     return filename
 
+def test_list_datasets(client):
+    """List datasets for a project."""
+    # [START bigquery_list_datasets]
+    # from google.cloud import bigquery
+    # client = bigquery.Client()
+
+    datasets = list(client.list_datasets())
+    project = client.project
+
+    if datasets:
+        print('Datasets in project {}:'.format(project))
+        for dataset in datasets:  # API request(s)
+            print('\t{}'.format(dataset.dataset_id))
+    else:
+        print('{} project does not contain any datasets.'.format(project))
+    # [END bigquery_list_datasets]
+
 def main():
     start = time.time()
     client = bigquery.Client()
+
+    test_list_datasets(client)
 
     # No spaces in Dataset name or Table Name
     dataset_name = "Paxata_Datasets"
