@@ -18,8 +18,6 @@ from urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 from requests.auth import HTTPBasicAuth
 
-#os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/callumfinlayson/Documents/Paxata/cloud_providers/gcp/Callums first Project-4bad2a4f676a.json"
-
 def _millis():
     return int(time.time() * 1000)
 
@@ -28,12 +26,6 @@ def load_data_from_dataframe(client,dataset_name,table_name,SCHEMA,df):
     load_config = LoadJobConfig()
     load_config.skip_leading_rows = 1
     load_config.schema = SCHEMA
-
-    #with open('csv_file.csv', 'rb') as readable:
-    #    client.load_table_from_file(
-    #        readable, table_ref, job_config=load_config)  # API request
-
-    #    client.load_table_from_file(paxata_data_in_bytes, table_ref, job_config=load_config)  # API request
     job = client.load_table_from_dataframe(df, table_ref, location='US')
     job.result()  # Waits for table load to complete.
     assert job.state == 'DONE'
@@ -54,7 +46,7 @@ def test_create_table(client,dataset_ref,table_name,SCHEMA):
     assert table.table_id == table_name
     # [END bigquery_create_table]
 
-# (2) Get all of the datasources from Paxata that are tagged with "tag"
+# Get all of the datasources from Paxata that are tagged with "tag"
 def get_tagged_library_items(auth_token,paxata_url,tag):
     tagged_datasets_ids = []
     tagged_datasets_versions = []
@@ -155,20 +147,12 @@ def table_exists(client, table_reference):
 def paxata_to_bigquery(self):
     start = time.time()
     client = bigquery.Client()
-
+    # No spaces in Dataset name or Table Name
     dataset_name = os.environ.get('dataset_name')
     dataset_description = os.environ.get('dataset_description')
     paxata_url = os.environ.get('paxata_url')
     paxata_restapi_token = os.environ.get('paxata_restapi_token')
     tag = os.environ.get('tag')
-    # No spaces in Dataset name or Table Name
-    #dataset_name = "Paxata_Datasets"
-    #dataset_description = 'Callums dataset created through the API'
-    #paxata_url = "https://dataprep.paxata.com"
-    #paxata_restapi_token = "567e0af0e62f4e5d92b8279809f8b014"
-    #tag = "Big Query"
-
-    #test_list_datasets(client)
 
     dataset_ref = client.dataset(dataset_name)
     if not dataset_exists(client, dataset_ref):
@@ -180,8 +164,7 @@ def paxata_to_bigquery(self):
     SCHEMA = []
     dataset_ref = client.dataset(dataset_name)
 
-    # Configures the query to append the results to a destination table,
-    # allowing field addition
+    # Configures the query to append the results to a destination table, allowing field addition
     job_config = bigquery.QueryJobConfig()
     job_config.schema_update_options = [
         bigquery.SchemaUpdateOption.ALLOW_FIELD_ADDITION,
@@ -191,6 +174,7 @@ def paxata_to_bigquery(self):
 
     tagged_datasets_ids,tagged_datasets_versions = get_tagged_library_items(auth_token, paxata_url, tag)
     dataset_counter = 0 
+    my_logging_message = []
     for id in tagged_datasets_ids:
         library_name,library_version,library_schema_dict = get_name_and_schema_of_datasource(auth_token, paxata_url, id,tagged_datasets_versions[dataset_counter])
         #convert library name to a valid table name (ie with no spaces)
@@ -225,8 +209,10 @@ def paxata_to_bigquery(self):
             load_data_from_dataframe(client, dataset_name, library_name_with_version, SCHEMA, df)
             print ("Data Taken from Paxata and loaded into Big Query Table for "+ library_name_with_version)
             end = time.time()
-            return ("Data Taken from Paxata and loaded into Big Query Table for "+ library_name_with_version + "\n" + "Time taken to export " + str(len(df)) + " rows to Google BigQuery: " + str(round((end - start),2))+ " seconds")
+            print ("Time taken to export " + str(len(df)) + " rows to Google BigQuery: " + str(round((end - start),2))+ " seconds")
+            my_logging_message.append("Data Taken from Paxata and loaded into Big Query Table for "+ library_name_with_version + "\n" + "Time taken to export " + str(len(df)) + " rows to Google BigQuery: " + str(round((end - start),2))+ " seconds")
         dataset_counter += 1
+    return (''.join(my_logging_message))
 
 if __name__ == "__main__":
     paxata_to_bigquery()

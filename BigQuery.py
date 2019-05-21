@@ -10,6 +10,7 @@ from google.cloud import bigquery
 from google.cloud.bigquery import Dataset
 from google.cloud.bigquery import LoadJobConfig
 from google.cloud.bigquery import SchemaField
+
 import os, time, requests, json, string, csv
 import pandas as pd
 import numpy as np
