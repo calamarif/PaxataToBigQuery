@@ -144,7 +144,7 @@ def table_exists(client, table_reference):
         return False
 # [END bigquery_table_exists]
 
-def paxata_to_bigquery(request,self):
+def paxata_to_bigquery(self,request):
     start = time.time()
     client = bigquery.Client()
     # No spaces in Dataset name or Table Name
