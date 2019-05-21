@@ -47,7 +47,7 @@ def test_create_table(client,dataset_ref,table_name,SCHEMA):
     # [END bigquery_create_table]
 
 # Get all of the datasources from Paxata that are tagged with "tag"
-def get_tagged_library_items(auth_token,paxata_url,tag):
+def get_tagged_library_items(auth_token,paxata_url,paxata_tag):
     tagged_datasets_ids = []
     tagged_datasets_versions = []
     get_tags_request = (paxata_url + "/rest/library/tags")
@@ -57,7 +57,7 @@ def get_tagged_library_items(auth_token,paxata_url,tag):
         i=0
         number_of_datasets = len(AllTagsDatasetsJson)
         while i < number_of_datasets:
-            if (AllTagsDatasetsJson[i].get('name') == tag):
+            if (AllTagsDatasetsJson[i].get('name') == paxata_tag):
                 tagged_datasets_ids.append(AllTagsDatasetsJson[i].get('dataFileId'))
                 tagged_datasets_versions.append(AllTagsDatasetsJson[i].get('version'))
             i += 1
@@ -144,15 +144,29 @@ def table_exists(client, table_reference):
         return False
 # [END bigquery_table_exists]
 
-def paxata_to_bigquery(self):
+def paxata_to_bigquery(self,request):
     start = time.time()
     client = bigquery.Client()
     # No spaces in Dataset name or Table Name
-    dataset_name = os.environ.get('dataset_name')
-    dataset_description = os.environ.get('dataset_description')
-    paxata_url = os.environ.get('paxata_url')
-    paxata_restapi_token = os.environ.get('paxata_restapi_token')
-    tag = os.environ.get('tag')
+    #dataset_name = os.environ.get('dataset_name')
+    #dataset_description = os.environ.get('dataset_description')
+    #paxata_url = os.environ.get('paxata_url')
+    #paxata_restapi_token = os.environ.get('paxata_restapi_token')
+    #tag = os.environ.get('tag')
+
+    # Google Cloud Account Variables
+    project_id = request.get_json().get('project_id')
+    private_key_id = request.get_json().get('private_key_id')
+    client_email = request.get_json().get('client_email')
+    
+    # Google Cloud Data Location Variables
+    dataset_name = request.get_json().get('dataset_name')
+    dataset_description = request.get_json().get('dataset_description')
+
+    #Paxata Variables
+    paxata_url = request.get_json().get('paxata_url')
+    paxata_restapi_token = request.get_json().get('paxata_restapi_token')
+    paxata_tag = request.get_json().get('paxata_tag')
 
     dataset_ref = client.dataset(dataset_name)
     if not dataset_exists(client, dataset_ref):
@@ -172,7 +186,7 @@ def paxata_to_bigquery(self):
     #job_config.destination = table_ref
     job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
 
-    tagged_datasets_ids,tagged_datasets_versions = get_tagged_library_items(auth_token, paxata_url, tag)
+    tagged_datasets_ids,tagged_datasets_versions = get_tagged_library_items(auth_token, paxata_url, paxata_tag)
     dataset_counter = 0 
     my_logging_message = []
     for id in tagged_datasets_ids:
