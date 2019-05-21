@@ -152,7 +152,7 @@ def paxata_to_bigquery(self):
     dataset_description = os.environ.get('dataset_description')
     paxata_url = os.environ.get('paxata_url')
     paxata_restapi_token = os.environ.get('paxata_restapi_token')
-    paxata_tag = os.environ.get('tag')
+    paxata_tag = os.environ.get('paxata_tag')
 
     # Google Cloud Account Variables
     #project_id = request.get_json().get('project_id')
