@@ -144,28 +144,28 @@ def table_exists(client, table_reference):
         return False
 # [END bigquery_table_exists]
 
-def paxata_to_bigquery(self,request):
+def paxata_to_bigquery(request,self):
     start = time.time()
     client = bigquery.Client()
     # No spaces in Dataset name or Table Name
-    #dataset_name = os.environ.get('dataset_name')
-    #dataset_description = os.environ.get('dataset_description')
-    #paxata_url = os.environ.get('paxata_url')
-    #paxata_restapi_token = os.environ.get('paxata_restapi_token')
-    #tag = os.environ.get('tag')
+    dataset_name = os.environ.get('dataset_name')
+    dataset_description = os.environ.get('dataset_description')
+    paxata_url = os.environ.get('paxata_url')
+    paxata_restapi_token = os.environ.get('paxata_restapi_token')
+    #paxata_tag = os.environ.get('tag')
 
     # Google Cloud Account Variables
-    project_id = request.get_json().get('project_id')
-    private_key_id = request.get_json().get('private_key_id')
-    client_email = request.get_json().get('client_email')
+    #project_id = request.get_json().get('project_id')
+    #private_key_id = request.get_json().get('private_key_id')
+    #client_email = request.get_json().get('client_email')
     
     # Google Cloud Data Location Variables
-    dataset_name = request.get_json().get('dataset_name')
-    dataset_description = request.get_json().get('dataset_description')
+    #dataset_name = request.get_json().get('dataset_name')
+    #dataset_description = request.get_json().get('dataset_description')
 
     #Paxata Variables
-    paxata_url = request.get_json().get('paxata_url')
-    paxata_restapi_token = request.get_json().get('paxata_restapi_token')
+    #paxata_url = request.get_json().get('paxata_url')
+    #paxata_restapi_token = request.get_json().get('paxata_restapi_token')
     paxata_tag = request.get_json().get('paxata_tag')
 
     dataset_ref = client.dataset(dataset_name)
