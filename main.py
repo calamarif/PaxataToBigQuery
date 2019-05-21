@@ -144,7 +144,7 @@ def table_exists(client, table_reference):
         return False
 # [END bigquery_table_exists]
 
-def paxata_to_bigquery(request):
+def paxata_to_bigquery(self):
     start = time.time()
     client = bigquery.Client()
     # No spaces in Dataset name or Table Name
@@ -152,7 +152,7 @@ def paxata_to_bigquery(request):
     dataset_description = os.environ.get('dataset_description')
     paxata_url = os.environ.get('paxata_url')
     paxata_restapi_token = os.environ.get('paxata_restapi_token')
-    #paxata_tag = os.environ.get('tag')
+    paxata_tag = os.environ.get('tag')
 
     # Google Cloud Account Variables
     #project_id = request.get_json().get('project_id')
@@ -166,7 +166,7 @@ def paxata_to_bigquery(request):
     #Paxata Variables
     #paxata_url = request.get_json().get('paxata_url')
     #paxata_restapi_token = request.get_json().get('paxata_restapi_token')
-    paxata_tag = request.get_json().get('paxata_tag')
+    #paxata_tag = request.get_json().get('paxata_tag')
 
     dataset_ref = client.dataset(dataset_name)
     if not dataset_exists(client, dataset_ref):
