@@ -156,10 +156,6 @@ def paxata_to_bigquery(self):
     start = time.time()
     client = bigquery.Client()
 
-    #os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/callumfinlayson/Documents/Paxata/cloud_providers/gcp/Callums first Project-4bad2a4f676a.json"
-    print (os.environ["client_email"])
-
-
     dataset_name = os.environ.get('dataset_name')
     dataset_description = os.environ.get('dataset_description')
     paxata_url = os.environ.get('paxata_url')
@@ -229,7 +225,7 @@ def paxata_to_bigquery(self):
             load_data_from_dataframe(client, dataset_name, library_name_with_version, SCHEMA, df)
             print ("Data Taken from Paxata and loaded into Big Query Table for "+ library_name_with_version)
             end = time.time()
-            print ("Time taken to export " + str(len(df)) + " rows to Google BigQuery: " + str(round((end - start),2))+ " seconds")
+            return ("Data Taken from Paxata and loaded into Big Query Table for "+ library_name_with_version + "\n" + "Time taken to export " + str(len(df)) + " rows to Google BigQuery: " + str(round((end - start),2))+ " seconds")
         dataset_counter += 1
 
 if __name__ == "__main__":
