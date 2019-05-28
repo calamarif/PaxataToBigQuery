@@ -4,3 +4,4 @@ __pycache__/
 
 # these extensions
 *.pyc
+Bigquery.code-workspace
