@@ -190,7 +190,7 @@ def process_variables(request_json):
 
     return (project_id,private_key_id,client_email,dataset_name,dataset_description,paxata_url,paxata_restapi_token,paxata_tag)
 
-def paxata_to_bigquery(self,request):
+def paxata_to_bigquery(request):
     start = time.time()
     client = bigquery.Client()
     # No spaces in Dataset name or Table Name

@@ -1,0 +1,9 @@
+  {
+    "dataset_name": "Paxata_Datasets_2",
+    "dataset_description": "Callums dataset created through Cloud Function",
+    "paxata_url": "https://dataprep.paxata.com",
+    "paxata_restapi_token": "567e0af0e62f4e5d92b8279809f8b014",
+    "project_id": "callums-first-project-240822",
+    "client_email": "service-account-gcp@callums-first-project-240822.iam.gserviceaccount.com",
+    "paxata_tag": "Callum"
+  }
