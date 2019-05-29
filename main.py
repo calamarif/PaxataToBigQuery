@@ -190,17 +190,15 @@ def process_variables(request_json):
 
     return (project_id,private_key_id,client_email,dataset_name,dataset_description,paxata_url,paxata_restapi_token,paxata_tag)
 
-
-
 def paxata_to_bigquery(self,request):
     start = time.time()
     client = bigquery.Client()
     # No spaces in Dataset name or Table Name
-    dataset_name = os.environ.get('dataset_name')
-    dataset_description = os.environ.get('dataset_description')
-    paxata_url = os.environ.get('paxata_url')
-    paxata_restapi_token = os.environ.get('paxata_restapi_token')
-    paxata_tag = os.environ.get('paxata_tag')
+    #dataset_name = os.environ.get('dataset_name')
+    #dataset_description = os.environ.get('dataset_description')
+    #paxata_url = os.environ.get('paxata_url')
+    #paxata_restapi_token = os.environ.get('paxata_restapi_token')
+    #paxata_tag = os.environ.get('paxata_tag')
 
     # assign the environment variables from the json request    
     request_json = request.get_json()
